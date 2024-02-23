@@ -17,28 +17,36 @@ namespace RogueHelper.Core
         private float _prefabsHeight;
         private float _prefabsWidth;
 
+        private bool _isEditor;
+
         private List<GameObject> _bossRoomPrefabs;
         private List<GameObject> _goldRoomPrefabs;
         private List<GameObject> _baseRoomPrefabs;
         private List<GameObject> _startRoomPrefabs;
+        private List<GameObject> _itemPrefabs;
+
+        private GameObject _levelGameObject;
 
         private List<Room> _roomsObjects = new();
         private List<int> _endRooms = new();
         private Queue<int> _roomQueue = new();
         private int[] _level = new int[100];
 
-        public void Construct(IRepository<GameObject> roomsRepository, int minAmount, int maxAmount)
+        public void Construct(IRepository<GameObject> gameobjectsRepository, int minAmount, int maxAmount)
         {
-            _bossRoomPrefabs = roomsRepository.GetItem<GameObject>(typeof(BossRoom));
-            _goldRoomPrefabs = roomsRepository.GetItem<GameObject>(typeof(GoldRoom));
-            _baseRoomPrefabs = roomsRepository.GetItem<GameObject>(typeof(Room));
-            _startRoomPrefabs = roomsRepository.GetItem<GameObject>(typeof(StartRoom));
+            _bossRoomPrefabs = gameobjectsRepository.GetItem<GameObject>(typeof(BossRoom));
+            _goldRoomPrefabs = gameobjectsRepository.GetItem<GameObject>(typeof(GoldRoom));
+            _baseRoomPrefabs = gameobjectsRepository.GetItem<GameObject>(typeof(Room));
+            _startRoomPrefabs = gameobjectsRepository.GetItem<GameObject>(typeof(StartRoom));
+            _itemPrefabs = gameobjectsRepository.GetItem<GameObject>(typeof(Item));
 
             _prefabsWidth = _baseRoomPrefabs[Random.Range(0, _baseRoomPrefabs.Count)].transform.localScale.x + 1f;
             _prefabsHeight = _baseRoomPrefabs[Random.Range(0, _baseRoomPrefabs.Count)].transform.localScale.y + 1f;
 
             _minAmountOfRooms = minAmount;
             _maxAmountOfRooms = maxAmount;
+
+            _levelGameObject = new GameObject("Level");
 
             StartGeneration();
         }
@@ -85,7 +93,12 @@ namespace RogueHelper.Core
             for (int i = 0; i < _roomsObjects.Count; i++)
             {
                 if(_roomsObjects[i].Index == _endRooms[index])
-                    GameObject.Destroy(_roomsObjects[i].gameObject);
+                {
+                    if (_isEditor)
+                        GameObject.DestroyImmediate(_roomsObjects[i].gameObject);
+                    else
+                        GameObject.Destroy(_roomsObjects[i].gameObject);
+                }
             }
 
             _endRooms.RemoveAt(index);
@@ -102,9 +115,11 @@ namespace RogueHelper.Core
             float y = (roomIndex / 10 - _level.Length / 20) * _prefabsHeight;
 
             GameObject currentRoom = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)],
-                new Vector2(x, y), Quaternion.identity);
+                new Vector2(x, y), Quaternion.identity, _levelGameObject.transform);
             currentRoom.TryGetComponent(out Room room);
             room.Construct(roomIndex, this);
+            if (currentRoom.TryGetComponent(out GoldRoom goldRoom))
+                goldRoom.Construct(_itemPrefabs);
             _roomsObjects.Add(room);
         }
 
@@ -155,7 +170,10 @@ namespace RogueHelper.Core
             {
                 for (int i = 0; i < _roomsObjects.Count; i++)
                 {
-                    GameObject.Destroy(_roomsObjects[i].gameObject);
+                    if (_isEditor)
+                        GameObject.DestroyImmediate(_roomsObjects[i].gameObject);
+                    else
+                        GameObject.Destroy(_roomsObjects[i].gameObject);
                 }
                 StartGeneration();
                 return;
@@ -169,15 +187,43 @@ namespace RogueHelper.Core
 
             foreach (Room item in _roomsObjects)
             {
+                if (item == null)
+                    continue;
                 CheckRoomNeighbour(item.Index, out int[] doors);
                 item.SetDoors(doors);
             }
+        }
+
+        public void DestroyRooms()
+        {
+            for (int i = 0; i < _roomsObjects.Count; i++)
+            {
+                if(_roomsObjects[i] == null)
+                {
+                    _roomsObjects.RemoveAt(i);
+                    continue;
+                }
+                if (_isEditor)
+                    GameObject.DestroyImmediate(_roomsObjects[i].gameObject);
+                else
+                    GameObject.Destroy(_roomsObjects[i].gameObject);
+            }
+
+            if (_isEditor)
+                GameObject.DestroyImmediate(_levelGameObject);
+            else
+                GameObject.Destroy(_levelGameObject);
         }
 
         public void RemoveRoom(Room room)
         {
             _currentAmountOfRooms--;
             _roomsObjects.Remove(room);
+        }
+
+        public void GenerateFromEditor(bool isEditor)
+        {
+            _isEditor = isEditor;
         }
     }
 }

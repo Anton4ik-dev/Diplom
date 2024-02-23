@@ -36,7 +36,9 @@ namespace RogueHelper.Rooms
             for (int i = 0; i < doors.Length; i++)
             {
                 if (doors[i] == 1)
+                {
                     _doors[i].SetActive(true);
+                }
             }
         }
     }
