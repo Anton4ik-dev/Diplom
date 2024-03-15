@@ -49,6 +49,7 @@ MonoBehaviour:
   _goldRoomPrefabsPath: TestLevelGoldRooms
   _baseRoomPrefabsPath: TestLevelBaseRooms
   _startRoomPrefabsPath: TestLevelStartRooms
+  _itemsPrefabsPath: TestLevelItems
   _chosenCharacter: {fileID: 3422076302283800879, guid: e7c10f6b1b920164c8d077e7c272fd00, type: 3}
   _minAmountOfRooms: 10
   _maxAmountOfRooms: 40
