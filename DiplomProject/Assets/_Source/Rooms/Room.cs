@@ -11,6 +11,7 @@ namespace RogueHelper.Rooms
         public int Index { get; private set; }
 
         private LevelGeneration _levelGeneration;
+        protected int[] _doorsToActivate;
 
         private void OnTriggerStay2D(Collider2D collision)
         {
@@ -31,15 +32,16 @@ namespace RogueHelper.Rooms
             _levelGeneration = levelGeneration;
         }
 
-        public void SetDoors(int[] doors)
+        public void SetDoors(int[] doors, bool isActivate = true)
         {
             for (int i = 0; i < doors.Length; i++)
             {
                 if (doors[i] == 1)
                 {
-                    _doors[i].SetActive(true);
+                    _doors[i].SetActive(isActivate);
                 }
             }
+            _doorsToActivate = doors;
         }
     }
 }

@@ -1,3 +1,4 @@
+using RogueHelper.Services;
 using UnityEngine;
 
 namespace RogueHelper.Rooms

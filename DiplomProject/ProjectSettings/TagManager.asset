@@ -15,9 +15,9 @@ TagManager:
   - Character
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Enemy
+  - Bullet
+  - Teleport
   - 
   - 
   - 

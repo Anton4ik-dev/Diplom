@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2479238119752786206}
   - component: {fileID: 2479238119752786207}
   - component: {fileID: 1248828254765789341}
+  - component: {fileID: 8764628805114265363}
   m_Layer: 0
   m_Name: RogueHelperContext
   m_TagString: Untagged
@@ -45,14 +46,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d712205bcfb6ce49894b13c04908e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bossRoomPrefabsPath: TestLevelBossRooms
-  _goldRoomPrefabsPath: TestLevelGoldRooms
-  _baseRoomPrefabsPath: TestLevelBaseRooms
-  _startRoomPrefabsPath: TestLevelStartRooms
-  _itemsPrefabsPath: TestLevelItems
-  _chosenCharacter: {fileID: 3422076302283800879, guid: e7c10f6b1b920164c8d077e7c272fd00, type: 3}
+  _bossRoomPrefabsPath:
+    GUID: 462ea4d849bc68e409c670356364bb03
+  _goldRoomPrefabsPath:
+    GUID: fb7a1b9cadc2f49448d037942bd1756f
+  _baseRoomPrefabsPath:
+    GUID: b3a1ff371c32f474f98b816e77a397c9
+  _startRoomPrefabsPath:
+    GUID: d53b933e52f395344987be83bfdde23f
+  _itemsPrefabsPath:
+    GUID: 172fa18ec14e49548b7dbc4a7ca5a336
+  _chosenCharacter: {fileID: 4114586251053443578, guid: e7c10f6b1b920164c8d077e7c272fd00, type: 3}
   _minAmountOfRooms: 10
-  _maxAmountOfRooms: 40
+  _maxAmountOfRooms: 32
 --- !u!114 &1248828254765789341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,3 +71,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6dcf1b1e15d6447aea9ccab1bbdba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8764628805114265363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2479238119752786176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f9942f5e8736a4ea6bbbc72ba59e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 0}
+  targetWidth: 640
+  pixelToUnits: 36

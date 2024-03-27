@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -6979389824422429992}
   - component: {fileID: -4276694072399175014}
   - component: {fileID: -3635337230412369342}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: ETGBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,9 +137,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
-  _damage: 1
+  _damage: 15
   _lifeTime: 2.5
   _rb: {fileID: -4276694072399175014}
   _characterLayer:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 8
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64

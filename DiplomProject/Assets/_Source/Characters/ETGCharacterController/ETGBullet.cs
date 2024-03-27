@@ -1,4 +1,7 @@
 using RogueHelper.Characters.ICharacterBase;
+using RogueHelper.Enemies;
+using RogueHelper.Enemies.IEnemyBase;
+using RogueHelper.Services;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +16,7 @@ namespace RogueHelper.Characters.ETGCharacterController
         [SerializeField] private Rigidbody2D _rb;
 
         [SerializeField] private LayerMask _characterLayer;
+        [SerializeField] private LayerMask _enemyLayer;
 
         private void Awake()
         {
@@ -34,6 +38,15 @@ namespace RogueHelper.Characters.ETGCharacterController
         {
             if (collision.gameObject.layer == gameObject.layer || LayerService.CheckLayersEquality(collision.gameObject.layer, _characterLayer))
                 return;
+
+            if(LayerService.CheckLayersEquality(collision.gameObject.layer, _enemyLayer))
+            {
+                if(collision.gameObject.TryGetComponent(out IEnemy enemy))
+                {
+                    enemy.TakeDamage(_damage);
+                }
+
+            }
 
             gameObject.SetActive(false);
         }

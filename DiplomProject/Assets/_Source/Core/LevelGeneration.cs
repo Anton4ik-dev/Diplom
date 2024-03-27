@@ -116,8 +116,8 @@ namespace RogueHelper.Core
 
             GameObject currentRoom = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)],
                 new Vector2(x, y), Quaternion.identity, _levelGameObject.transform);
-            currentRoom.TryGetComponent(out Room room);
-            room.Construct(roomIndex, this);
+            if(currentRoom.TryGetComponent(out Room room))
+                room.Construct(roomIndex, this);
             if (currentRoom.TryGetComponent(out GoldRoom goldRoom))
                 goldRoom.Construct(_itemPrefabs);
             _roomsObjects.Add(room);
@@ -180,6 +180,23 @@ namespace RogueHelper.Core
             }
 
             int bossRoom = RandomRoom();
+            bool isBadSpawn = true;
+            while (isBadSpawn)
+            {
+                if (bossRoom == 44
+                   || bossRoom == 45
+                   || bossRoom == 46
+                   || bossRoom == 54
+                   || bossRoom == 56
+                   || bossRoom == 64
+                   || bossRoom == 65
+                   || bossRoom == 66)
+                {
+                    bossRoom = RandomRoom();
+                }
+                else
+                    isBadSpawn = false;
+            }
             CreateRoom(bossRoom, _bossRoomPrefabs);
 
             int goldenRoom = RandomRoom();
